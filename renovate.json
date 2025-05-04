@@ -65,6 +65,10 @@
         "patch"
       ],
       "automerge": true
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "pinDigests": true
     }
   ]
 }
