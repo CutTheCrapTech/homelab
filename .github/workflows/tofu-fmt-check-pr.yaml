@@ -22,20 +22,20 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
         with:
           # Fetch depth 2 is needed for comparing changes in PRs
           fetch-depth: 2
 
       - name: Get changed files
         id: changed_files # Assign an ID to refer to the outputs of this step
-        uses: tj-actions/changed-files@51b95329c8f4b61c47580611165741513f62685e # v44
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46.0.5
         with:
           # Specify the output format for the list of files
           files_separator: ' ' # Use space as a separator for the loop below
 
       - name: Setup OpenTofu
-        uses: opentofu/setup-opentofu@56804f5a4313dfa42a14e46e4e10e461c5140675 # v1
+        uses: opentofu/setup-opentofu@592200bd4b9bbf4772ace78f887668b1aee8f716 # v1.0.5
         with:
           tofu_version: latest
 
