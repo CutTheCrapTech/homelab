@@ -1,0 +1,6 @@
+{
+  "name": "DevPod Development",
+  "image": "ghcr.io/karteekiitg/k8s_setup:latest",
+  "remoteUser": "homelab",
+  "postCreateCommand": "source .env"
+}

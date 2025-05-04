@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# For Use in DevPod DevContainer only, as it uses WRK_DIR
+
+# $1: Previous HEAD
+# $2: New HEAD
+# $3: 1 if a branch was checked out, 0 otherwise
+
+if [ $3 -eq 1 ]; then
+    source ~/.zshrc
+fi
