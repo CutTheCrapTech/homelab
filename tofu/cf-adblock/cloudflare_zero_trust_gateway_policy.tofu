@@ -22,7 +22,7 @@ resource "cloudflare_zero_trust_gateway_policy" "block_ads" {
   # Block domain belonging to lists (defined below)
   filters = ["dns"]
   action  = "block"
-  traffic = local.pihole_ad_filter
+  traffic = local.adblock_ad_filter
 
   rule_settings {
     block_page_enabled = false
