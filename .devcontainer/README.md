@@ -14,9 +14,11 @@ Note: Suggest to use original image (i.e no need to change step 1,2 and 3) to re
 Note: By default, tries to load `.env` from the project root and `.devcontainer/infisical_secrets.env` to the environment variables in the devcontainer.
 
 ## Infisical Setup (Optional)
-If using Infisical to manage secrets, you'll need to provide your Infisical Client Secret. Follow below instructions:
 
-1.  **Prepare the Infisical Secrets File**:
+1.  **Infisical Setup**:
+    Modify [.infisical.json](/.infisical.json) and [.env](/.env) and commit to git (i.e. before devcontainer is created). Then after devcontainer/workspace is created, for the first time, follow the below steps:
+
+2.  **Prepare the Infisical Secrets File**:
     Run the following command in your terminal at the root of the `homelab` project by replacing "<your_infisical_client_secret>" with your actual infisical secret.
     ```shell
     LINE_TO_ADD='TF_VAR_infisical_client_secret="<your_infisical_client_secret>"' # Note: Change this
@@ -34,10 +36,10 @@ If using Infisical to manage secrets, you'll need to provide your Infisical Clie
     fi
     ```
 
-2.  **Security Note**:
+3.  **Security Note**:
     The file `.devcontainer/infisical_secrets.env` is covered by the `*secrets*.env` pattern in `.gitignore` and will **not** be committed to your repository.
 
-3.  **Activate Changes**:
+4.  **Activate Changes**:
     Now source your Zsh configuration. This ensures the Infisical setup script (which reads `.devcontainer/infisical_secrets.env`) is executed:
     ```shell
     source ~/.zshrc
@@ -46,7 +48,7 @@ If using Infisical to manage secrets, you'll need to provide your Infisical Clie
 If you want to get all your other Infisical secrets into your devcontainer environment automatically (beyond just the client secret), ensure `homelab/.env` is also set up correctly with your Infisical project details (domain, project ID, path, etc.). The `setup_infisical.sh` script, orchestrated by `customize_zsh.sh` (which modifies `.zshrc`), will then use these details to fetch and export secrets into your shell.
 
 ## GCloud Cli Setup (Optional)
-Run the below commands to setup gcloud cli in your devpod workspace
+Run the below commands to setup gcloud cli in your devpod workspace - after devcontainer/workspace is created, for the first time and when the authentication expires.
 ```shell
 gcloud auth application-default login --no-launch-browser
 ```
