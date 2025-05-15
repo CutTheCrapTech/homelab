@@ -27,7 +27,7 @@ if [ -f "$INFISICAL_FILE_PATH" ]; then
   cat <<EOF >> "$ZSHRC_FILE_PATH"
   # Run Infisical Script and set environment variables
   chmod +x $WRK_DIR/.devcontainer/setup_infisical.sh
-  $WRK_DIR/.devcontainer/setup_infisical.sh
+  $WRK_DIR/.devcontainer/setup_infisical.sh "$WRK_DIR"
 
   if [ -f "/tmp/.env" ]; then
     source /tmp/.env
