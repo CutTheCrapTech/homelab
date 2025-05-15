@@ -19,18 +19,18 @@ If using Infisical to manage secrets, you'll need to provide your Infisical Clie
 1.  **Prepare the Infisical Secrets File**:
     Run the following command in your terminal at the root of the `homelab` project by replacing "<your_infisical_client_secret>" with your actual infisical secret.
     ```shell
-    LINE_TO_ADD='TF_VAR_cloud_infisical_client_secret="<your_infisical_client_secret>"' # Note: Change this
+    LINE_TO_ADD='TF_VAR_infisical_client_secret=\"<your_infisical_client_secret>\"' # Note: Change this
     SECRETS_FILE=".devcontainer/infisical_secrets.env"
 
     # Check if the file already contains a line for the secret.
-    # We use a general grep for "TF_VAR_cloud_infisical_client_secret" to avoid adding duplicates
+    # We use a general grep for "TF_VAR_infisical_client_secret" to avoid adding duplicates
     # if the user has already manually created/edited the line.
     # The 2>/dev/null suppresses "No such file or directory" from grep if $SECRETS_FILE doesn't exist.
-    if ! grep -Fq "TF_VAR_cloud_infisical_client_secret" "$SECRETS_FILE" 2>/dev/null; then
+    if ! grep -Fq "TF_VAR_infisical_client_secret" "$SECRETS_FILE" 2>/dev/null; then
       echo "$LINE_TO_ADD" >> "$SECRETS_FILE"
-      echo "Added TF_VAR_cloud_infisical_client_secret to '$SECRETS_FILE'."
+      echo "Added TF_VAR_infisical_client_secret to '$SECRETS_FILE'."
     else
-      echo "TF_VAR_cloud_infisical_client_secret line already exists in '$SECRETS_FILE'."
+      echo "TF_VAR_infisical_client_secret line already exists in '$SECRETS_FILE'."
     fi
     ```
 
