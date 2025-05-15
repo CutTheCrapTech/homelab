@@ -15,10 +15,13 @@ Note: By default, tries to load `.env` from the project root and `.devcontainer/
 
 ## Infisical Setup (Optional)
 
-1.  **Infisical Setup**:
-    Modify [.infisical.json](/.infisical.json) and [.env](/.env) and commit to git (i.e. before devcontainer is created). Then after devcontainer/workspace is created, for the first time, follow the below steps:
+1.  **Infisical Console**:
+    Create an infisical account, setup a project, create folders tofu, tofu_rw, k8s and k8s_rw. In Admin -> Access Control -> Identities, create an identity called Terraform. Click on that identity, click on universal auth, add client secret, then note the client secret and client id. Go back to Secrets -> Your project -> Other -> Access Control -> Machine Identities -> Add Identity, select the identity you just created and select the role as Developer. Also highly recommended to tick Delete Protection in Secrets -> Your project -> Other -> Project Settings. Here, in the same page (Project Settings), you can copy your Project ID from the top right corner. Your infisical domain is either https://eu.infisical.com or https://infisical.com based on what you signed up for on cloud or your own url, if self-hosted. Also note that in some places (like .infisical.json), project id and workspace id are analogous.
 
-2.  **Prepare the Infisical Secrets File**:
+2.  **Infisical Setup**:
+    Modify [.infisical.json](/.infisical.json) and [.env](/.env) based on the above directions and commit to git (i.e. before devcontainer is created). Then after devcontainer/workspace is created, for the first time, follow the below steps:
+
+3.  **Prepare the Infisical Secrets File**:
     Run the following command in your terminal at the root of the `homelab` project by replacing "<your_infisical_client_secret>" with your actual infisical secret.
     ```shell
     LINE_TO_ADD='TF_VAR_infisical_client_secret="<your_infisical_client_secret>"' # Note: Change this
@@ -36,10 +39,10 @@ Note: By default, tries to load `.env` from the project root and `.devcontainer/
     fi
     ```
 
-3.  **Security Note**:
+4.  **Security Note**:
     The file `.devcontainer/infisical_secrets.env` is covered by the `*secrets*.env` pattern in `.gitignore` and will **not** be committed to your repository.
 
-4.  **Activate Changes**:
+5.  **Activate Changes**:
     Now source your Zsh configuration. This ensures the Infisical setup script (which reads `.devcontainer/infisical_secrets.env`) is executed:
     ```shell
     source ~/.zshrc
