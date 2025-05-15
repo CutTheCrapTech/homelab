@@ -12,7 +12,7 @@ if [[ -v TF_VAR_infisical_domain ]] && [[ -n "$TF_VAR_infisical_domain" ]] &&
     exit 1
   fi
 
-  infisical export --domain="$TF_VAR_infisical_domain" --projectId="$TF_VAR_infisical_project_id" --path="$TF_VAR_infisical_ro_secrets_path" --format=dotenv-export > /tmp/.env
+  infisical export --domain="$TF_VAR_infisical_domain" --projectId="$TF_VAR_infisical_project_id" --path="$TF_VAR_infisical_ro_secrets_path" --format=dotenv-export > "$HOME/.infisical_exports.env"
   if [ $? -ne 0 ]; then
     echo "Error: Infisical export failed."
     exit 1
