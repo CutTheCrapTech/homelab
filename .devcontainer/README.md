@@ -9,6 +9,8 @@ Changes if necessary:
 
 [![Open in DevPod!](https://devpod.sh/assets/open-in-devpod.svg)](https://devpod.sh/open#git@github.com:karteekiitg/homelab.git@prod&workspace=my-k8s-workspace&provider=docker&ide=zed)
 
+Note: If using branches for prod, staging, dev as intended, change the above link adding **@BRANCH** at the end of your git url (e.g. https://devpod.sh/open#git@github.com:karteekiitg/homelab.git@prod) or alternatively add it in devpod directly (need to do that everytime you create a workspace in ui or cmdline).
+
 Note: Suggest to use original image (i.e no need to change step 1,2 and 3) to reduce complexity, unless you have a specific reason to use a different image. When you do have a valid reason not to,that you think benefits others, raise a Issue/PR.
 
 Note: By default, tries to load `.env` from the project root and `.devcontainer/infisical_secrets.env` to the environment variables in the devcontainer.
