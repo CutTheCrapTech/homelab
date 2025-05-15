@@ -1,21 +1,5 @@
 #!/bin/bash
 
-# Get the workdir from the first argument
-WRK_DIR="$1"
-SECRETS_ENV_FILE_PATH="$WRK_DIR/.devcontainer/infisical_secrets.env"
-
-# Source infisical_secrets.env if it exists and TF_VAR_infisical_client_secret is not already set
-if [ -f "$SECRETS_ENV_FILE_PATH" ]; then
-  if [[ ! -v TF_VAR_infisical_client_secret || -z "$TF_VAR_infisical_client_secret" ]]; then
-    echo "Attempting to source TF_VAR_infisical_client_secret from $SECRETS_ENV_FILE_PATH"
-    set -a
-    source "$SECRETS_ENV_FILE_PATH"
-    set +a
-  fi
-else
-  echo "Warning: Infisical secrets file not found at: $SECRETS_ENV_FILE_PATH. Infisical client secret might not be available if not already set in the environment."
-fi
-
 if [[ -v TF_VAR_infisical_domain ]] && [[ -n "$TF_VAR_infisical_domain" ]] &&
    [[ -v TF_VAR_infisical_client_id ]] && [[ -n "$TF_VAR_infisical_client_id" ]] &&
    [[ -v TF_VAR_infisical_project_id ]] && [[ -n "$TF_VAR_infisical_project_id" ]] &&

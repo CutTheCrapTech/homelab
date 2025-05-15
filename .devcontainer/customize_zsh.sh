@@ -23,11 +23,23 @@ else
   echo "Warning: Environment file not found at: $ENV_FILE_PATH"
 fi
 
+INFISICAL_CLIENT_SECRET_FILE_PATH="$WRK_DIR/.devcontainer/infisical_secrets.env"
+if [ -f "$INFISICAL_CLIENT_SECRET_FILE_PATH" ]; then
+  cat <<EOF >> "$ZSHRC_FILE_PATH"
+
+  # Source local Infisical client secret directly into the shell
+  echo "Sourcing Infisical client secret from $INFISICAL_CLIENT_SECRET_FILE_PATH for the current shell"
+  set -a
+  source "$INFISICAL_CLIENT_SECRET_FILE_PATH"
+  set +a
+EOF
+fi
+
 if [ -f "$INFISICAL_FILE_PATH" ]; then
   cat <<EOF >> "$ZSHRC_FILE_PATH"
   # Run Infisical Script and set environment variables
   chmod +x $WRK_DIR/.devcontainer/setup_infisical.sh
-  $WRK_DIR/.devcontainer/setup_infisical.sh "$WRK_DIR"
+  $WRK_DIR/.devcontainer/setup_infisical.sh
 
   if [ -f "/tmp/.env" ]; then
     source /tmp/.env
