@@ -1,9 +1,9 @@
 ## DevPod Instructions
 
 Changes if necessary:
-1. IMAGE_NAME in [build_dev_container.yaml](.github/workflows/build_dev_container.yaml).
-2. Features in [devcontainer.json image builder](.github/.devcontainer/devcontainer.json).
-3. Image in [devcontainer.json](.devcontainer/devcontainer.json).
+1. IMAGE_NAME in [build_dev_container.yaml](/.github/workflows/build_dev_container.yaml).
+2. Features in [devcontainer.json image builder](/.github/.devcontainer/devcontainer.json).
+3. Image in [devcontainer.json](/.devcontainer/devcontainer.json).
 4. DevPod link below, to your liking. Note: workspace property below doesn't as of now. [Open Issue](https://github.com/loft-sh/devpod/issues/1843).
 5. Create docker/k8s provider in DevPod app. Change settings to your liking.
 
