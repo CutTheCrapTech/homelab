@@ -19,7 +19,7 @@ If using Infisical to manage secrets, you'll need to provide your Infisical Clie
 1.  **Prepare the Infisical Secrets File**:
     Run the following command in your terminal at the root of the `homelab` project by replacing "<your_infisical_client_secret>" with your actual infisical secret.
     ```shell
-    LINE_TO_ADD='TF_VAR_infisical_client_secret=\"<your_infisical_client_secret>\"' # Note: Change this
+    LINE_TO_ADD='TF_VAR_infisical_client_secret="<your_infisical_client_secret>"' # Note: Change this
     SECRETS_FILE=".devcontainer/infisical_secrets.env"
 
     # Check if the file already contains a line for the secret.

@@ -12,7 +12,7 @@ from [Renovate](https://www.mend.io/renovate/) and [DevContainers](https://conta
 
 </div>
 
-DevContainer Usage [Instructions](DEVCONTAINER.md).
+DevContainer Usage [Instructions](.devcontainer/README.md).
 
 ---
 
