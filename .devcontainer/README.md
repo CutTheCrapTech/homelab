@@ -49,9 +49,17 @@ If you want to get all your other Infisical secrets into your devcontainer envir
 
 ## GCloud Cli Setup (Optional)
 Run the below commands to setup gcloud cli in your devpod workspace - after devcontainer/workspace is created, for the first time and when the authentication expires.
-```shell
-gcloud auth application-default login --no-launch-browser
-```
+
+1.  **Login and create Application Default Credentials:**
+    ```shell
+    gcloud auth application-default login --no-launch-browser
+    ```
+2.  **Set the quota project for your Application Default Credentials:**
+    You will likely see a warning after the login command about a missing quota project. Use the following command to set it, replacing `homelab-454718` with your actual Google Cloud Project ID:
+    ```shell
+    gcloud auth application-default set-quota-project homelab-454718
+    ```
+    This step is crucial to ensure that API calls made using these credentials are correctly billed and use the appropriate project's quotas.
 
 ### Issues
 Currently few bugs are reported in DevPod.
