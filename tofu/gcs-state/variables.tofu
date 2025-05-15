@@ -20,3 +20,8 @@ variable "tofu_encryption_passphrase" {
   type        = string
   sensitive   = true
 }
+
+variable "gcp_sa_dev_emails" {
+  description = "GCP SA Dev emails"
+  type        = string
+}

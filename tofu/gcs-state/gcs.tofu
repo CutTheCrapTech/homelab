@@ -1,7 +1,3 @@
-locals {
-  gcp_sa_dev_emails = data.infisical_secrets.tofu_secrets.secrets["gcp_sa_dev_emails"].value
-}
-
 # 1. Create a Service Account named tofu-dev-sa
 resource "google_service_account" "tofu_dev_sa" {
   account_id   = "tofu-dev-sa"

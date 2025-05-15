@@ -28,5 +28,5 @@ cp samples/backend_gcs.tofu.sample ./backend.tofu
 
 ```shell
 # Re-initialize tofu to migrate state to GCS backend
-tofu init -migrate-state -backend-config="bucket=<your_bucket_name>" -backend-config="prefix=gcp/$(git rev-parse --abbrev-ref HEAD)"
+tofu init -migrate-state -backend-config="prefix=gcp/$(git rev-parse --abbrev-ref HEAD)"
 ```
