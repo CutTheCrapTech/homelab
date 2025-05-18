@@ -21,27 +21,38 @@ _zsh_setup_homelab_env() {
   export GIT_BRANCH=\$(git symbolic-ref --short HEAD 2>/dev/null || echo 'unknown')
   echo "Zsh: GIT_BRANCH set to '\$GIT_BRANCH'"
 
-  # 2. Source .env file
+  # 2. Set TF_VAR_gcs_env based on GIT_BRANCH
+  echo "Zsh: Setting TF_VAR_gcs_env based on GIT_BRANCH ('\$GIT_BRANCH')..."
+  if [ "\$GIT_BRANCH" = "main" ] || [ "\$GIT_BRANCH" = "prod" ]; then
+    export TF_VAR_gcs_env="prod"
+  elif [ "\$GIT_BRANCH" = "staging" ]; then
+    export TF_VAR_gcs_env="staging"
+  else
+    export TF_VAR_gcs_env="dev"
+  fi
+  echo "Zsh: TF_VAR_gcs_env set to '\$TF_VAR_gcs_env'"
+
+  # 3. Source .env file
   if [ -f "$ENV_FILE_PATH" ]; then
     echo "Zsh: Sourcing $ENV_FILE_PATH..."
     set -a
     . "$ENV_FILE_PATH"
     set +a
   else
-    echo "Zsh Warning: Environment file not found at: $ENV_FILE_PATH. Some environment variables may be missing."
+    echo -e "\\033[31mZsh Warning: Environment file not found at: $ENV_FILE_PATH. Some environment variables may be missing.\\033[0m"
   fi
 
-  # 3. Source Infisical client secret
+  # 4. Source Infisical client secret
   if [ -f "$INFISICAL_CLIENT_SECRET_FILE_PATH" ]; then
     echo "Zsh: Sourcing Infisical client secret from $INFISICAL_CLIENT_SECRET_FILE_PATH..."
     set -a
     . "$INFISICAL_CLIENT_SECRET_FILE_PATH"
     set +a
   else
-    echo "Zsh Warning: Infisical client secret file not found at: $INFISICAL_CLIENT_SECRET_FILE_PATH. TF_VAR_infisical_client_secret may not be set."
+    echo -e "\\033[31mZsh Warning: Infisical client secret file not found at: $INFISICAL_CLIENT_SECRET_FILE_PATH. TF_VAR_infisical_client_secret may not be set.\\033[0m"
   fi
 
-  # 4. Run Infisical setup script
+  # 5. Run Infisical setup script
   if [ -f "$INFISICAL_FILE_PATH" ]; then
     echo "Zsh: Running Infisical setup script $INFISICAL_FILE_PATH..."
     chmod +x "$INFISICAL_FILE_PATH" >/dev/null 2>&1
@@ -53,15 +64,15 @@ _zsh_setup_homelab_env() {
       echo "Zsh: Removed \$HOME/.infisical_exports.env"
     fi
   else
-    echo "Zsh Warning: Infisical setup script not found at: $INFISICAL_FILE_PATH. Infisical secrets might not be loaded."
+    echo -e "\\033[31mZsh Warning: Infisical setup script not found at: $INFISICAL_FILE_PATH. Infisical secrets might not be loaded.\\033[0m"
   fi
 
-  # 5. Set Git Hooks Path
+  # 6. Set Git Hooks Path
   if [ -d "$HOOKS_DIR_PATH" ]; then
     echo "Zsh: Setting Git hooks path to $HOOKS_DIR_PATH..."
     git config --local core.hooksPath "$HOOKS_DIR_PATH" >/dev/null 2>&1
   else
-    echo "Zsh Warning: Git hooks directory not found at: $HOOKS_DIR_PATH. Custom git hooks may not be active."
+    echo -e "\\033[31mZsh Warning: Git hooks directory not found at: $HOOKS_DIR_PATH. Custom git hooks may not be active.\\033[0m"
   fi
   echo "Zsh: Homelab environment setup/refresh complete."
 }
@@ -75,7 +86,7 @@ if [[ $- == *i* ]]; then
   if command -v _zsh_setup_homelab_env >/dev/null 2>&1; then
     _zsh_setup_homelab_env
   else
-    echo "Zsh Warning: _zsh_setup_homelab_env function not found. Initial Homelab environment setup skipped."
+    echo -e "\033[31mZsh Warning: _zsh_setup_homelab_env function not found. Initial Homelab environment setup skipped.\033[0m"
   fi
 fi
 EOF_ZSH_INITIAL_CALL
@@ -91,7 +102,7 @@ _zsh_hook_refresh_env_on_git_checkout() {
     if command -v _zsh_setup_homelab_env >/dev/null 2>&1; then
       _zsh_setup_homelab_env
     else
-      echo "Zsh Warning: _zsh_setup_homelab_env function not found. Refresh on branch change skipped. Run 'source ~/.zshrc' manually."
+      echo -e "\033[31mZsh Warning: _zsh_setup_homelab_env function not found. Refresh on branch change skipped. Run 'source ~/.zshrc' manually.\033[0m"
     fi
     rm -f "$refresh_flag_file" # Remove flag after attempting refresh
   fi

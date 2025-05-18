@@ -100,3 +100,17 @@ variable "kubernetes_volumes" {
     })
   )
 }
+
+# Define a variable for the GCS bucket name.
+# Set this in .env file in root, which should automatically set it in devcontainer env.
+variable "bucket_name" {
+  description = "The globally unique name for the GCS bucket."
+  type        = string
+}
+
+# Define a variable for part of gcs prefix.
+# This should be set automatically based on branch logic in devcontainer.
+variable "gcs_env" {
+  description = "Part of GCS prefix."
+  type        = string
+}

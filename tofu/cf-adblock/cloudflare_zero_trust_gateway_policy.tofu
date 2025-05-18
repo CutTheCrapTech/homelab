@@ -1,17 +1,22 @@
 locals {
-  # Iterate through each adblock_domain_lists resource and extract its ID
-  adblock_domain_lists = [for k, v in cloudflare_zero_trust_list.adblock_domain_lists : v.id]
+  # Get all list IDs from the adblock_domain_lists map of resources
+  # cloudflare_zero_trust_list.adblock_domain_lists is now a map of resources because it uses for_each
+  adblock_list_ids = [
+    for list_object in values(cloudflare_zero_trust_list.adblock_domain_lists) : list_object.id
+  ]
 
-  # Format the values: remove dashes and prepend $
-  adblock_domain_lists_formatted = [for v in local.adblock_domain_lists : format("$%s", replace(v, "-", ""))]
+  # Format these IDs for use in the policy's traffic string.
+  adblock_list_refs_for_policy = [
+    for id in local.adblock_list_ids : format("$%s", replace(id, "-", ""))
+  ]
 
-  # Create filters to use in the policy
-  adblock_ad_filters = formatlist("any(dns.domains[*] in %s)", local.adblock_domain_lists_formatted)
-  adblock_ad_filter  = join(" or ", local.adblock_ad_filters)
+  # Construct the traffic filter string.
+  # If no lists are found/created, use a "no-match" condition like "1==0".
+  adblock_ad_filter = length(local.adblock_list_refs_for_policy) > 0 ? join(" or ", formatlist("any(dns.domains[*] in %s)", local.adblock_list_refs_for_policy)) : "1==0"
 }
 
 resource "cloudflare_zero_trust_gateway_policy" "block_ads" {
-  account_id = var.cloudflare_account_id_enark
+  account_id = var.cloudflare_secondary_account_id
 
   name        = "Block Ads"
   description = "Block Ads domains"
@@ -24,13 +29,13 @@ resource "cloudflare_zero_trust_gateway_policy" "block_ads" {
   action  = "block"
   traffic = local.adblock_ad_filter
 
-  rule_settings {
+  rule_settings = {
     block_page_enabled = false
   }
 }
 
 resource "cloudflare_zero_trust_gateway_policy" "block_malware" {
-  account_id = var.cloudflare_account_id_enark
+  account_id = var.cloudflare_secondary_account_id
 
   name        = "Block malware"
   description = "Block known threats based on Cloudflare's threat intelligence"
@@ -43,7 +48,7 @@ resource "cloudflare_zero_trust_gateway_policy" "block_malware" {
   traffic = "any(dns.security_category[*] in {178 80 83 176 175 117 131 134 151 153 68})"
   action  = "block"
 
-  rule_settings {
+  rule_settings = {
     block_page_enabled = true
   }
 }

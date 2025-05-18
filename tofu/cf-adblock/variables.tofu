@@ -5,10 +5,6 @@ variable "tofu_encryption_passphrase" {
   default     = null
 }
 
-variable "adblock_hosts_urls" {
-  type = list(string)
-}
-
 variable "cloudflare_secondary_account_id" {
   type = string
 }
@@ -16,4 +12,10 @@ variable "cloudflare_secondary_account_id" {
 variable "cloudflare_secondary_api_token" {
   type      = string
   sensitive = true
+}
+
+# Define a variable for the GCS bucket name
+variable "bucket_name" {
+  description = "The globally unique name for the GCS bucket."
+  type        = string
 }

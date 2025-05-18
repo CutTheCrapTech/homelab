@@ -11,7 +11,7 @@ terraform {
   }
   encryption {
     key_provider "pbkdf2" "my_passphrase" {
-      passphrase = local.tofu_encryption_passphrase
+      passphrase = var.tofu_encryption_passphrase
     }
     method "aes_gcm" "my_method" {
       keys = key_provider.pbkdf2.my_passphrase

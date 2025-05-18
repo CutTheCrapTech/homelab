@@ -28,7 +28,7 @@ cp samples/backend_gcs.tofu ./backend.tofu
 
 ```shell
 # Initialize tofu
-tofu init -backend-config="bucket=<your_bucket_name>" -backend-config="prefix=kubernetes/$(git rev-parse --abbrev-ref HEAD)"
+tofu init
 ```
 
 ### Beta Notice
