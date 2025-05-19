@@ -45,5 +45,7 @@ resource "cloudflare_zero_trust_list" "adblock_domain_lists" {
 
   name  = "ad_domain_list_${each.key}"
   type  = "DOMAIN"
-  items = each.value
+  items = [ # Transform the list of strings into a list of objects
+    for domain_str in each.value : { value = domain_str }
+  ]
 }

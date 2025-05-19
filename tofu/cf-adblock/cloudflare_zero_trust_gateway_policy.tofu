@@ -1,49 +1,45 @@
 locals {
-  # Iterate through each adblock_domain_lists resource and extract its ID
-  adblock_domain_lists = [for k, v in cloudflare_zero_trust_list.adblock_domain_lists : v.id]
+  # Directory where the external script (run by GitHub Actions before tofu plan)
+  # outputs the chunked domain files. This directory should be gitignored.
+  # Example: <module_path>/processed_adblock_chunks/
+  chunk_files_output_dir = "${path.module}/processed_adblock_chunks"
+  chunk_file_name_pattern = "adblock_chunk_*.txt" # Pattern the script uses for output files
 
-  # Format the values: remove dashes and prepend $
-  adblock_domain_lists_formatted = [for v in local.adblock_domain_lists : format("$%s", replace(v, "-", ""))]
+  # Discover all chunk files created by the script.
+  # fileset() returns a sorted list of file paths relative to chunk_files_output_dir.
+  discovered_chunk_filenames = fileset(local.chunk_files_output_dir, local.chunk_file_name_pattern)
 
-  # Create filters to use in the policy
-  adblock_ad_filters = formatlist("any(dns.domains[*] in %s)", local.adblock_domain_lists_formatted)
-  adblock_ad_filter  = join(" or ", local.adblock_ad_filters)
+  # Step 1: Create a map of filenames to their raw (trimmed) content.
+  chunk_file_contents = {
+    for filename in local.discovered_chunk_filenames :
+    filename => trimspace(file("${local.chunk_files_output_dir}/${filename}"))
+  }
+
+  # Step 2: Create the final map, processing the content from the map above.
+  list_definitions_from_files = {
+    for filename, content_str in local.chunk_file_contents : # Iterate over the pre-processed content
+    filename => {
+      # raw_content_for_this_file = content_str // Just for clarity, same as content_str
+      domains_in_chunk          = [for d in split("\n", content_str) : d if d != ""]
+    }
+  }
+
+  # For the 'block_ads' policy that uses these lists:
+  # Collect all IDs from the cloudflare_zero_trust_list resources that will be created.
 }
 
-resource "cloudflare_zero_trust_gateway_policy" "block_ads" {
-  account_id = var.cloudflare_account_id_enark
+resource "cloudflare_zero_trust_list" "adblock_domain_lists" {
+  account_id = var.cloudflare_secondary_account_id
 
-  name        = "Block Ads"
-  description = "Block Ads domains"
+  # for_each iterates over the map of discovered chunk filenames and their processed domains.
+  # each.key is the filename (e.g., "adblock_chunk_000.txt").
+  # each.value is the map { file_content = "...", domains_in_chunk = [...] }.
+  for_each   = local.list_definitions_from_files # Changed to new local variable name
 
-  enabled    = true
-  precedence = 11
-
-  # Block domain belonging to lists (defined below)
-  filters = ["dns"]
-  action  = "block"
-  traffic = local.adblock_ad_filter
-
-  rule_settings {
-    block_page_enabled = false
-  }
-}
-
-resource "cloudflare_zero_trust_gateway_policy" "block_malware" {
-  account_id = var.cloudflare_account_id_enark
-
-  name        = "Block malware"
-  description = "Block known threats based on Cloudflare's threat intelligence"
-
-  enabled    = true
-  precedence = 10
-
-  # Block all security risks
-  filters = ["dns"]
-  traffic = "any(dns.security_category[*] in {178 80 83 176 175 117 131 134 151 153 68})"
-  action  = "block"
-
-  rule_settings {
-    block_page_enabled = true
-  }
+  # Create a Cloudflare list name derived from the chunk filename for stability and traceability.
+  # Example: "adblock_chunk_000.txt" becomes "ad-list-adblock-chunk-000".
+  name        = "ad-list-${replace(replace(each.key, ".txt", ""), "_", "-")}"
+  type        = "DOMAIN"
+  items       = [for domain_str in each.value.domains_in_chunk : { value = domain_str }] # Changed to use domains_in_chunk
+  description = "Adblock list. Source chunk file: ${each.key}. Managed by Terraform."
 }
