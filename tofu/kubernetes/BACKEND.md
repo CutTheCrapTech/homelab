@@ -14,7 +14,7 @@ Note: By default all secrets in /tofu folder will be populated. /tofu_rw is the 
 
 ```shell
 # Local Backend
-tofu init -backend-config="path=$(git rev-parse --abbrev-ref HEAD).tfstate"
+tofu init"
 ```
 **Note: If your are using local backend with dev devcontainers and git repo, your state file will be deleted when the container is removed. So be very careful.**
 
