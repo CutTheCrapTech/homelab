@@ -14,7 +14,12 @@ Note: By default all secrets in /tofu folder will be populated. /tofu_rw is the 
 
 ```shell
 # Local Backend
-tofu init"
+cp samples/backend_local.tofu ./backend.tofu
+```
+
+```shell
+# Local Backend
+tofu init
 ```
 **Note: If your are using local backend with dev devcontainers and git repo, your state file will be deleted when the container is removed. So be very careful.**
 
@@ -30,7 +35,3 @@ cp samples/backend_gcs.tofu ./backend.tofu
 # Initialize tofu
 tofu init
 ```
-
-### Beta Notice
-
-`Please treat GCS backend as beta and only use for air-gapped installations as of now. Will remove the beta tag after testing it in due course.`
