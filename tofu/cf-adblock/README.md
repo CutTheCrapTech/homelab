@@ -2,6 +2,17 @@
 
 OpenTofu module for Cloudflare Zero Trust Gateway DNS policies to block ads/malware. Fetches external domain lists, processes them, and updates Cloudflare.
 
+## My Usage
+
+I generally tend to avoid hosting piHole / AdGuard, as when they go down, we lose access to the internet. Setting HA is not quite straight forward. Also it mostly only covers home network, not mobile network.
+
+Even if using piHole / AdGuard, you can use to set this DoH endpoint as upstream. So, I use this setup in the following way, after getting DoH endpoint / ipv6 address from cloudflare:
+
+1.  On Browsers, android, ios, etc. i use the DoH endpoint to directly on top of using uBo and sponsorblock.
+2.  My router only supports ipv4 addresses as dns servers. So I use 1.1.1.2 / 1.0.0.2 as dns servers to block malware by default. If your router / devices supports DoH or DoT by default, always use it instead of ipv4 / ipv6.
+3. If using cloudflare warp as your vpn / zerotrust setup, your devices are automatically protected by warp. I also use the ipv6 address as upstream for tailscale / netbird, so that I am also protected by default, when using these as my vpn / zerotrust.
+4. I use a secondary cloudflare account, using a cheap [1.111B class domain](https://gen.xyz/1111b).
+
 ## Overview
 
 Enhances network security and user experience by filtering unwanted content at the DNS level using Cloudflare Gateway.
@@ -62,3 +73,7 @@ Note: By default, every month, it updates the list, running as a [github action]
     *   If acceptable, run `tofu apply`.
 
 Provides automated, robust ad/malware blocking via Cloudflare DNS filtering.
+
+## Acknowledgements
+
+This part of cloudflare ad-blocking was inspired by Marco Lancini's [blog post](https://blog.marcolancini.it/2022/blog-serverless-ad-blocking-with-cloudflare-gateway/) on serverless ad-blocking with Cloudflare Gateway.
