@@ -2,8 +2,8 @@ talos_cluster_config = {
   name = "talos"
   # Only use a VIP if the nodes share a layer 2 network
   # Ref: https://www.talos.dev/v1.9/talos-guides/network/vip/#requirements
-  vip     = "192.168.71.50"
-  gateway = "192.168.64.1"
+  vip         = "192.168.71.50"
+  gateway     = "192.168.64.1"
   subnet_mask = 18
   # The version of talos features to use in generated machine configuration. Generally the same as image version.
   # See https://github.com/siderolabs/terraform-provider-talos/blob/main/docs/data-sources/machine_configuration.md

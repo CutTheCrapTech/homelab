@@ -17,30 +17,30 @@ terraform {
       version = "2.0.1"
     }
     infisical = {
-      source = "infisical/infisical"
+      source  = "infisical/infisical"
       version = ">= 0.15.7"
     }
     external = {
-      source = "hashicorp/external"
+      source  = "hashicorp/external"
       version = ">= 2.3.4"
     }
   }
   encryption {
-      key_provider "pbkdf2" "my_passphrase" {
-        passphrase = local.tofu_encryption_passphrase
-      }
-      method "aes_gcm" "my_method" {
-        keys = key_provider.pbkdf2.my_passphrase
-      }
-      state {
-        method = method.aes_gcm.my_method
-        enforced = true
-      }
-      plan {
-        method = method.aes_gcm.my_method
-        enforced = true
-      }
+    key_provider "pbkdf2" "my_passphrase" {
+      passphrase = local.tofu_encryption_passphrase
     }
+    method "aes_gcm" "my_method" {
+      keys = key_provider.pbkdf2.my_passphrase
+    }
+    state {
+      method   = method.aes_gcm.my_method
+      enforced = true
+    }
+    plan {
+      method   = method.aes_gcm.my_method
+      enforced = true
+    }
+  }
 }
 
 locals {

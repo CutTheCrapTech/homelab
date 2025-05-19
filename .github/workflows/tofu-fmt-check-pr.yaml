@@ -67,7 +67,7 @@ jobs:
 
               # If tofu fmt failed (exit status is not 0)
               if [[ $FMT_STATUS -ne 0 ]]; then
-                echo "- ❌ **${changed_file}** is not properly formatted. Please run `tofu fmt`." >> $GITHUB_STEP_SUMMARY
+                echo "- ❌ **${changed_file}** is not properly formatted. Please run \`tofu fmt\`." >> $GITHUB_STEP_SUMMARY
                 # Update the overall check status to failure
                 CHECK_STATUS=1
                 echo "CHECK_STATUS=${CHECK_STATUS}" >> $GITHUB_ENV

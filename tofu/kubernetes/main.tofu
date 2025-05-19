@@ -48,7 +48,7 @@ module "volumes" {
 
 module "infisical_secrets" {
   # Conditionally create infisical module based on where var.infisical is set in infisical.auto.tfvars
-  count  = (var.infisical_project_id != null && var.infisical_client_id != null) ? 1 : 0
+  count = (var.infisical_project_id != null && var.infisical_client_id != null) ? 1 : 0
 
   source = "./infisical"
 
