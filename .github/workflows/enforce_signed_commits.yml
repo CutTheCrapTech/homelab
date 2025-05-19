@@ -1,0 +1,24 @@
+name: Check signed commits in PR
+on:
+  # Triggers the workflow on pull request events targeting the main or prod branches
+  pull_request_target:
+    branches:
+      - main
+      - prod
+  # Also triggers on direct pull requests to main or prod (for forks or direct pushes)
+  pull_request:
+    branches:
+      - main
+      - prod
+
+
+jobs:
+  check-signed-commits:
+    name: Check signed commits in PR
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Check signed commits in PR
+        uses: 1Password/check-signed-commits-action@ed2885f3ed2577a4f5d3c3fe895432a557d23d52 # v1.2.0
