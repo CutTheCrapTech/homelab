@@ -58,8 +58,8 @@ jobs:
           for changed_file in ${{ steps.changed_files.outputs.all_changed_and_modified_files }}; do
             echo "Checking tofu fmt on ${changed_file}..."
 
-            # Check if the file has a .tofu or .tofu.sample extension
-            if [[ $changed_file == *.tofu || $changed_file == *.tofu.sample ]]; then
+            # Check if the file has a .tofu or .tfvars extension
+            if [[ $changed_file == *.tofu || $changed_file == *.tfvars ]]; then
               CHANGED_TOFU_FILES="$CHANGED_TOFU_FILES $changed_file"
               # Run tofu fmt in check mode. It exits with non-zero status if formatting is needed.
               tofu fmt -check $changed_file
@@ -80,7 +80,7 @@ jobs:
           done
 
           if [[ -z "$CHANGED_TOFU_FILES" ]]; then
-            echo "No changed or modified .tofu or .tofu.sample files found." >> $GITHUB_STEP_SUMMARY
+            echo "No changed or modified .tofu or .tfvars files found." >> $GITHUB_STEP_SUMMARY
           fi
 
           echo "" >> $GITHUB_STEP_SUMMARY

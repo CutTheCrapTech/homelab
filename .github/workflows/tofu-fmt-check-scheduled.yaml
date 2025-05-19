@@ -32,12 +32,12 @@ jobs:
           # Initialize overall check status (0 = success, 1 = failure)
           CHECK_STATUS=0
 
-          echo "Searching for and checking .tofu and .tofu.sample files in the 'tofu/' directory recursively..."
+          echo "Searching for and checking .tofu and .tfvars files in the 'tofu/' directory recursively..."
           echo "### Tofu Format Check Results" >> $GITHUB_STEP_SUMMARY # Add a header to the summary
 
           # Use find to locate files and pipe them safely to a while loop
           # This handles filenames with spaces or special characters correctly.
-          find tofu/ -type f \( -name '*.tofu' -o -name '*.tofu.sample' \) -print0 | while IFS= read -r -d $'\0' file; do
+          find tofu/ -type f \( -name '*.tofu' -o -name '*.tfvars' \) -print0 | while IFS= read -r -d $'\0' file; do
             echo "Checking tofu fmt on ${file}..." # Log which file is being checked
 
             # Run tofu fmt in check mode. It exits with non-zero status if formatting is needed.
