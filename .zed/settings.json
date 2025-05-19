@@ -18,5 +18,6 @@
       "terraform.sample",
       "tf.sample"
     ]
-  }
+  },
+  "tab_size": 2
 }
