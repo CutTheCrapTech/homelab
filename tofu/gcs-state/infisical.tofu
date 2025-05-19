@@ -22,7 +22,7 @@ locals {
 resource "infisical_secret" "gcp_wif_details" {
   for_each = local.gcp_wif_secrets_to_infisical
 
-  name  = each.key  # The name of the secret in Infisical
+  name  = each.key   # The name of the secret in Infisical
   value = each.value # The value of the secret
 
   env_slug     = "prod"

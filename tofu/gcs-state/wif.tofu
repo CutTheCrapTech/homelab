@@ -16,12 +16,12 @@ resource "google_iam_workload_identity_pool" "github_pool" {
 
 # 2. Create a Workload Identity Provider within the pool for GitHub
 resource "google_iam_workload_identity_pool_provider" "github_provider" {
-  project                                = var.gcp_project_id
-  workload_identity_pool_id              = google_iam_workload_identity_pool.github_pool.workload_identity_pool_id
-  workload_identity_pool_provider_id     = var.wif_config.provider_id
-  display_name                           = var.wif_config.provider_display_name
-  description                            = "OIDC provider for GitHub Actions for repository ${var.wif_config.github_owner}/${var.wif_config.github_repository}"
-  disabled                               = false # Ensure it's enabled
+  project                            = var.gcp_project_id
+  workload_identity_pool_id          = google_iam_workload_identity_pool.github_pool.workload_identity_pool_id
+  workload_identity_pool_provider_id = var.wif_config.provider_id
+  display_name                       = var.wif_config.provider_display_name
+  description                        = "OIDC provider for GitHub Actions for repository ${var.wif_config.github_owner}/${var.wif_config.github_repository}"
+  disabled                           = false # Ensure it's enabled
 
   oidc {
     issuer_uri        = "https://token.actions.githubusercontent.com"

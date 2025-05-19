@@ -25,11 +25,11 @@ variable "infisical_rw_secrets_path" {
 variable "infisical_branch_env_mapping" {
   description = "Infisical Branch Environment Mapping"
   type        = map(string)
-  default     = {
-        "main"    = "prod"
-        "prod"    = "prod"
-        "staging" = "staging"
-        "dev"     = "dev"
+  default = {
+    "main"    = "prod"
+    "prod"    = "prod"
+    "staging" = "staging"
+    "dev"     = "dev"
   }
 }
 

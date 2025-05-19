@@ -17,11 +17,11 @@ terraform {
       keys = key_provider.pbkdf2.my_passphrase
     }
     state {
-      method = method.aes_gcm.my_method
+      method   = method.aes_gcm.my_method
       enforced = true
     }
     plan {
-      method = method.aes_gcm.my_method
+      method   = method.aes_gcm.my_method
       enforced = true
     }
   }

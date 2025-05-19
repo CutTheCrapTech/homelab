@@ -2,7 +2,7 @@ locals {
   # Directory where the external script (run by GitHub Actions before tofu plan)
   # outputs the chunked domain files. This directory should be gitignored.
   # Example: <module_path>/processed_adblock_chunks/
-  chunk_files_output_dir = "${path.module}/processed_adblock_chunks"
+  chunk_files_output_dir  = "${path.module}/processed_adblock_chunks"
   chunk_file_name_pattern = "adblock_chunk_*.txt" # Pattern the script uses for output files
 
   # Discover all chunk files created by the script.
@@ -20,7 +20,7 @@ locals {
     for filename, content_str in local.chunk_file_contents : # Iterate over the pre-processed content
     filename => {
       # raw_content_for_this_file = content_str // Just for clarity, same as content_str
-      domains_in_chunk          = [for d in split("\n", content_str) : d if d != ""]
+      domains_in_chunk = [for d in split("\n", content_str) : d if d != ""]
     }
   }
 
@@ -34,7 +34,7 @@ resource "cloudflare_zero_trust_list" "adblock_domain_lists" {
   # for_each iterates over the map of discovered chunk filenames and their processed domains.
   # each.key is the filename (e.g., "adblock_chunk_000.txt").
   # each.value is the map { file_content = "...", domains_in_chunk = [...] }.
-  for_each   = local.list_definitions_from_files # Changed to new local variable name
+  for_each = local.list_definitions_from_files # Changed to new local variable name
 
   # Create a Cloudflare list name derived from the chunk filename for stability and traceability.
   # Example: "adblock_chunk_000.txt" becomes "ad-list-adblock-chunk-000".
