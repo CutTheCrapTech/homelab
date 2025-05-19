@@ -30,7 +30,7 @@ locals {
 
 resource "cloudflare_zero_trust_list" "adblock_domain_lists" {
   account_id = var.cloudflare_secondary_account_id
-  
+
   # for_each iterates over the map of discovered chunk filenames and their processed domains.
   # each.key is the filename (e.g., "adblock_chunk_000.txt").
   # each.value is the map { file_content = "...", domains_in_chunk = [...] }.
