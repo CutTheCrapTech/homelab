@@ -53,6 +53,19 @@ jobs:
             echo -e "\033[31mError: .infisical_exports.env file not found ./.\033[0m"
             exit 1
           fi
+          cat $GITHUB_ENV
+
+      - name: Debug Loaded Environment Variables for GCP Auth
+        run: |
+          echo "--- Checking critical GCP Auth variables ---"
+          echo "GCP_WORKLOAD_IDENTITY_PROVIDER: ($GCP_WORKLOAD_IDENTITY_PROVIDER)" # Parentheses help see if it's empty
+          echo "GCP_SERVICE_ACCOUNT_EMAIL: ($GCP_SERVICE_ACCOUNT_EMAIL)"
+          echo "--- All GITHUB_ENV (should show all sourced vars) ---"
+          # The following might be very verbose if many secrets are loaded
+          # Consider commenting it out after initial debugging
+          cat $GITHUB_ENV
+          echo "--- Current Environment (env command) ---"
+          env | sort
 
       - name: Authenticate to Google Cloud
         id: google-auth
