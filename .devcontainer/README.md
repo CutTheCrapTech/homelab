@@ -1,6 +1,7 @@
 ## DevPod Instructions
 
 Changes if necessary:
+
 1. IMAGE_NAME in [build_dev_container.yaml](/.github/workflows/build_dev_container.yaml).
 2. Features in [devcontainer.json image builder](/.github/.devcontainer/devcontainer.json).
 3. Image in [devcontainer.json](/.devcontainer/devcontainer.json).
@@ -13,7 +14,7 @@ Note: If using branches for prod, staging, dev as intended, change the above lin
 
 Note: Suggest to use original image (i.e no need to change step 1,2 and 3) to reduce complexity, unless you have a specific reason to use a different image. When you do have a valid reason not to,that you think benefits others, raise a Issue/PR.
 
-Note: By default, tries to load `.env` from the project root and `.devcontainer/infisical_secrets.env` to the environment variables in the devcontainer.
+Note: By default, tries to load `.env` from the container home at `$HOME/infisical_secrets.env` to the environment variables in the devcontainer.
 
 ## Infisical Setup (Optional)
 
@@ -25,6 +26,7 @@ Note: By default, tries to load `.env` from the project root and `.devcontainer/
 
 3.  **Prepare the Infisical Secrets File**:
     Run the following command in your terminal at the root of the `homelab` project by replacing "<your_infisical_client_secret>" with your actual infisical secret.
+
     ```shell
     LINE_TO_ADD='TF_VAR_infisical_client_secret="<your_infisical_client_secret>"' # Note: Change this
     SECRETS_FILE=".devcontainer/infisical_secrets.env"
@@ -42,17 +44,18 @@ Note: By default, tries to load `.env` from the project root and `.devcontainer/
     ```
 
 4.  **Security Note**:
-    The file `.devcontainer/infisical_secrets.env` is covered by the `*secrets*.env` pattern in `.gitignore` and will **not** be committed to your repository.
+    The file `$HOME/infisical_secrets.env` is covered by the `*secrets*.env` pattern in `.gitignore` and will **not** be committed to your repository.
 
 5.  **Activate Changes**:
-    Now source your Zsh configuration. This ensures the Infisical setup script (which reads `.devcontainer/infisical_secrets.env`) is executed:
+    Now source your Zsh configuration. This ensures the Infisical setup script (which reads `$HOME/infisical_secrets.env`) is executed:
     ```shell
-    source ~/.zshrc
+    source $HOME/.zshrc
     ```
 
 If you want to get all your other Infisical secrets into your devcontainer environment automatically (beyond just the client secret), ensure `homelab/.env` is also set up correctly with your Infisical project details (domain, project ID, path, etc.). The `setup_infisical.sh` script, orchestrated by `customize_zsh.sh` (which modifies `.zshrc`), will then use these details to fetch and export secrets into your shell.
 
 ## GCloud Cli Setup (Optional)
+
 Run the below commands to setup gcloud cli in your devpod workspace - after devcontainer/workspace is created, for the first time and when the authentication expires.
 
 1.  **Login and create Application Default Credentials:**
@@ -67,7 +70,9 @@ Run the below commands to setup gcloud cli in your devpod workspace - after devc
     This step is crucial to ensure that API calls made using these credentials are correctly billed and use the appropriate project's quotas.
 
 ### Issues
+
 Currently few bugs are reported in DevPod.
+
 1. [Deeplink](https://github.com/loft-sh/devpod/issues/1843) doesn't work as it is supposed to. So workspace name is not auto-filled.
 
 TODO: Look into how PVs and multiple workspaces work.

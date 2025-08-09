@@ -8,7 +8,7 @@ ZSHRC_FILE_PATH="$HOME/.zshrc"
 ENV_FILE_PATH=$WRK_DIR/.env
 INFISICAL_FILE_PATH=$WRK_DIR/.devcontainer/setup_infisical.sh
 HOOKS_DIR_PATH=$WRK_DIR/hooks
-INFISICAL_CLIENT_SECRET_FILE_PATH=$WRK_DIR/.devcontainer/infisical_secrets.env
+INFISICAL_CLIENT_SECRET_FILE_PATH=$HOME/infisical_secrets.env
 
 cat <<EOF_ZSH_SETUP_ENV_FUNC >> "$ZSHRC_FILE_PATH"
 
